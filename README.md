@@ -3,7 +3,7 @@
 ## tl;dr Video Tutorial: 
 
 ##  This app has 3 interfaces: Customer, Manager, and Supervisor
-### - Customers get a view of all items currently in stock and have the ability to buy them.\nIf an item's stock quantity is (or becomes) 0, then the product no longer appears to the customer.  A customer also cannot buy more of a product than what is in stock.
+### - Customers get a view of all items currently in stock and have the ability to buy them. If an item's stock quantity is (or becomes) 0, then the product no longer appears to the customer.  A customer also cannot buy more of a product than what is in stock.
 
 ### - Managers have a few more options available to them:
 ####	"View Products for Sale" - This shows ALL products, even those with 0 stock.
