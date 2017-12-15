@@ -6,6 +6,9 @@ var data = [
 	["Department ID", "Department Name", "Overhead Cost", "Product Sales", "Total Profit"]
 ];
 var output;
+var totalOverhead = 0;
+var totalRevenue = 0;
+var totalProfit = 0;
 
 
 var connection = mysql.createConnection({
@@ -75,15 +78,20 @@ function sumDeptSales(n, mySQLArray) {
 			for (var k = 0; k < res1.length; k++) {
 				total += res1[k].product_sales;
 			}
-			tableRow = [mySQLArray[n].id, mySQLArray[n].department_name, mySQLArray[n].over_head_costs.toFixed(2), total.toFixed(2), (total - mySQLArray[n].over_head_costs).toFixed(2)]
+			tableRow = [mySQLArray[n].id, mySQLArray[n].department_name, mySQLArray[n].over_head_costs.toFixed(2), total.toFixed(2), (total - mySQLArray[n].over_head_costs).toFixed(2)];
+			totalOverhead += mySQLArray[n].over_head_costs;
+			totalRevenue += total;
+			totalProfit += (total - mySQLArray[n].over_head_costs);
 			data.push(tableRow);
 			n++;
 			sumDeptSales(n, mySQLArray);
 		});
 	}
 	else {
+	data.push(["", "Totals:", totalOverhead, totalRevenue, totalProfit]);
 	output = table.table(data);
 	console.log(output);
+	console.log("\n");
 	afterConnection();
 	};
 };
@@ -96,7 +104,7 @@ function newDept() {
 		var arr = [];
 
 		for (var i = 0; i < res.length; i++) {
-			arr.push(res[i].department_name);
+			arr.push(res[i].department_name.toLowerCase());
 		};
 
 		inquirer.prompt([
@@ -105,7 +113,7 @@ function newDept() {
 			message: "What is the department's name?"
 		}
 		]).then(function(inquirerResponse) {
-			if (arr.indexOf(inquirerResponse.departmentName) != -1) {
+			if (arr.indexOf(inquirerResponse.departmentName.toLowerCase()) != -1) {
 				console.log("\nThat department already exists.\n");
 				afterConnection();
 			}
@@ -123,8 +131,8 @@ function newDeptPart2(res, inquirerResponse) {
 		message: "How much is the Overhead Cost?"
 	}
 	]).then(function(inquirerResponse1) {
-		if (inquirerResponse1.overheadCost != parseFloat(inquirerResponse1.overheadCost).toFixed(2)) {
-			console.log("\nPlease enter a price with only 2 digits\n");
+		if (inquirerResponse1.overheadCost != parseFloat(inquirerResponse1.overheadCost).toFixed(2) || inquirerResponse1.overheadCost <= 0) {
+			console.log("\nPlease enter a positive amount with only 2 digits\n");
 			newDeptPart2(res, inquirerResponse);
 		}
 		else {

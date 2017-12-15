@@ -58,7 +58,7 @@ function viewProducts() {
 	connection.query('SELECT * FROM inventory', function(err, res) {
 		if(err) throw err;
 		for (var i = 0; i < res.length; i++) {
-			console.log("\n" + res[i].id + ") Product: " + res[i].product_name + "\n   Department: " + res[i].department_name + "\n   Price: $" + res[i].price + "   Quantity: " + res[i].stock_quantity + "\n   Current Sales: $" + res[i].product_sales);
+			console.log("\n" + res[i].id + ") Product: " + res[i].product_name + "\n   Department: " + res[i].department_name + "\n   Price: $" + res[i].price + "   Quantity: " + res[i].stock_quantity + "\n   Current Sales: $" + res[i].product_sales.toFixed(2));
 		}
 		console.log("\n");
 		afterConnection();
@@ -133,7 +133,7 @@ function addStockPart2(res, inquirerResponse) {
 			function(err, res1) {
 				if (err) throw err;
 				message = "";
-				console.log("\nAdded " + parseInt(inquirerResponse1.numAdded) + " to " + res[inquirerResponse.productID - 1].product_name + "'s stock.\n")
+				console.log("\n\nAdded " + parseInt(inquirerResponse1.numAdded) + " to " + res[inquirerResponse.productID - 1].product_name + "'s stock.\n")
 				afterConnection();
 			});
 		};
@@ -174,8 +174,8 @@ function newProductPart2(res, inquirerResponse) {
 		message: "How much does it cost?"
 	}
 	]).then(function(inquirerResponse1) {
-		if (inquirerResponse1.productPrice != parseFloat(inquirerResponse1.productPrice).toFixed(2)) {
-			console.log("\nPlease enter a price with only 2 digits\n");
+		if (inquirerResponse1.productPrice != parseFloat(inquirerResponse1.productPrice).toFixed(2) || inquirerResponse1.productPrice <= 0) {
+			console.log("\nPlease enter a positive amount with only 2 digits\n");
 			newProductPart2(res, inquirerResponse);
 		}
 		else {
