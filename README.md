@@ -1,6 +1,6 @@
 # BAMAZON, the New-and-Improved Amazon experience
 
-## tl;dr Video Tutorial: 
+## tl;dr Video Tutorial: https://www.screencast.com/t/9aBuivBWU
 
 ##  This app has 3 interfaces: Customer, Manager, and Supervisor
 ### - Customers get a view of all items currently in stock and have the ability to buy them. If an item's stock quantity is (or becomes) 0, then the product no longer appears to the customer.  A customer cannot buy more of a product than what is in stock or choose an ID not associated with a product.
